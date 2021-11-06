@@ -64,10 +64,14 @@ endif()
 list(APPEND GAME_SOURCE
      Classes/AppDelegate.cpp
      Classes/HelloWorldScene.cpp
+     Classes/GameLayer.cpp
+     Classes/GameSprite.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
      Classes/HelloWorldScene.h
+     Classes/GameLayer.h
+     Classes/GameSprite.h
      )
 
 if(ANDROID)
