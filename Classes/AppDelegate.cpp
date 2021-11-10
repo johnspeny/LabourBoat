@@ -91,7 +91,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     register_all_packages();
 
     //
-    director->setContentScaleFactor(MIN(frameSize.height / designResolutionSize.height, largeResolutionSize.width / designResolutionSize.width));
+    //director->setContentScaleFactor(MIN(frameSize.height / designResolutionSize.height, largeResolutionSize.width / designResolutionSize.width));
     FileUtils::getInstance()->setSearchResolutionsOrder(resourcesPaths);
 
 

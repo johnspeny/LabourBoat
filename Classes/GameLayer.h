@@ -118,11 +118,6 @@ private:
 	cocos2d::Label* _youWin;
 	cocos2d::Label* _youGameOver;
 
-	// game counter
-	cocos2d::Label* _timerUI;
-	int _initalGameTime;
-
-	void updateTimer(float dt);
 
 
 	void doResetGame();

@@ -97,29 +97,17 @@ void GameLayer::doResetGame()
 	intervalOfHuman = 10.0f;
 	timeOfHuman = intervalOfHuman;
 
+	
+
 }
 
 void GameLayer::doStopGame()
 {
-
-	Sprite* fallingfallingCreaturesObj;
-	int numberOfFallingObjs = _fallingCreatures.size();
-	for(int i=numberOfFallingObjs-1; i>=0; i--) {
-		fallingfallingCreaturesObj = _fallingCreatures.at(i);
-		fallingfallingCreaturesObj->stopAllActions();
-		fallingfallingCreaturesObj->setVisible(false);
-
-		_fallingCreatures.eraseObject(fallingfallingCreaturesObj);
-		fallingfallingCreaturesObj->retain();
-	}
-
-	bridge->stopAllActions();
-	bridge->setVisible(false);
-
-
+	
 	_playing = false;
+
 	// show gameOver label
-	//pnlGameOver->setVisible(true);
+	_youGameOver->setVisible(true);
 }
 
 void GameLayer::doGenerateNewWood()
@@ -281,6 +269,9 @@ void GameLayer::update(float dt)
 				fC->setVisible(false);
 				currentHealth = 100.0f;
 				totalHealth = 100.0f;
+				_youWin->setVisible(true);
+				_youGameOver->setVisible(false);
+				
 				break;
 			default:
 				break;
@@ -301,9 +292,8 @@ void GameLayer::update(float dt)
 
 		if (distanceBetween(fC->getPosition(), _boat->getPosition()) == 0){
 			_boat->setVisible(false);
-			_youGameOver->setVisible(true);
 			fC->setVisible(false);
-			_playing = false;
+			doStopGame();
 			AudioEngine::play2d("WAV_20211101_144219747.wav");
 		}
 		
@@ -332,7 +322,7 @@ void GameLayer::update(float dt)
 			) {
 
 			//_boat->setColor(Color3B(100, 100, 100));
-			_boat->setOpacity(90);
+			//_boat->setOpacity(90);
 			currentHealth -= 12 * dt;
 			//log("Creature Health === %f", currentHealth);
 			AudioEngine::play2d("WAV_20211101_144158718.wav");
@@ -340,8 +330,8 @@ void GameLayer::update(float dt)
 		}
 		else
 		{
-			_boat->setOpacity(100);
-			_boat->setColor(Color3B(160, 156, 38));
+			//_boat->setOpacity(100);
+			//_boat->setColor(Color3B(160, 156, 38));
 		}
 
 		// bridge 
@@ -599,7 +589,7 @@ void GameLayer::update(float dt)
 
 	// water update
 	if (water->getOpacity() < 50){
-		_youGameOver->setVisible(true);
+		doStopGame();
 	}
 
 	water->setOpacity(_opacityWater);
@@ -636,7 +626,6 @@ void GameLayer::doInitProperties()
 	_woodIntscore = 0;
 	_humanIntscore = 0;
 
-	_initalGameTime = 100;
 	currentHealth = 100.0f;
 
 	_opacityWater = 100;
@@ -672,11 +661,38 @@ void GameLayer::doInitGraphics()
 	// ===========================================
 	// Background image
 	// ----------
-	auto bg = Sprite::create("bg_layer1.png");
+	auto bg = Sprite::create("bg.png");
+	//auto bg = Sprite::create("bg.png");
 	bg->setPosition(Vec2(_origin.x + _screenSize.width * 0.5f, _screenSize.height * 0.5f));
+	bg->setContentSize(Size(_screenSize.width, _screenSize.height));
 	this->addChild(bg, -10);
 
 
+	// ===========================================
+	// To bush image
+	// ----------
+	auto bushLeft = Sprite::createWithSpriteFrameName("sidebush.png");
+	bushLeft->setAnchorPoint(Vec2(0.5f, 0.0f));
+	bushLeft->setPosition(Vec2(_origin.x + bushLeft->getContentSize().width * 1/8.0f, 0.0f));
+	bushLeft->setContentSize(Size(bushLeft->getContentSize().width, _screenSize.height));
+	this->addChild(bushLeft, -5);
+
+	auto bushRight = Sprite::createWithSpriteFrameName("sidebush.png");
+	bushRight->setAnchorPoint(Vec2(0.5f, 0.0f));
+	bushRight->setFlippedX(true);
+	bushRight->setPosition(Vec2(_origin.x + _screenSize.width - bushRight->getContentSize().width * 1 / 8.0f, 0.0f));
+	bushRight->setContentSize(Size(bushRight->getContentSize().width, _screenSize.height));
+	this->addChild(bushRight, -5);
+
+
+	// ===========================================
+	// Sample image
+	// ----------
+	//auto sg = Sprite::create("froggy.png");
+	////auto bg = Sprite::create("bg.png");
+	//sg->setPosition(Vec2(_origin.x + _screenSize.width * 0.5f, _screenSize.height * 0.5f));
+	//this->addChild(sg, -10);
+	
 
 	// ===========================================
 	// Creature
@@ -689,7 +705,7 @@ void GameLayer::doInitGraphics()
 
 	for (size_t i = 0; i < 1; i++)
 	{
-		auto creature = Sprite::createWithSpriteFrameName("springMan_hurt.png");
+		auto creature = Sprite::createWithSpriteFrameName("froggy.png");
 		//creature->setTextureRect(Rect(0, 0, 40, 40));
 		//creature->setColor(Color3B(88, 211, 16));
 		creature->setVisible(false);
@@ -700,9 +716,9 @@ void GameLayer::doInitGraphics()
 
 		for (size_t i = 0; i < 24; i++)
 		{
-			auto healthBar = Sprite::createWithSpriteFrameName("U.png");
-			healthBar->setTextureRect(Rect(0, 0, 10, 10));
-			//healthBar->setColor(Color3B(50, 50, 50));
+			auto healthBar = Sprite::createWithSpriteFrameName("box.png");
+			healthBar->setTextureRect(Rect({ 57,0 }, { 10,10 }));
+			healthBar->setColor(Color3B(50, 50, 50));
 			healthBar->setPosition(Vec2(size.width * 0.5f, size.height * 1.0f + healthBar->getContentSize().height));
 			creature->addChild(healthBar, 10, kCreatureHealthBar);
 		}
@@ -714,11 +730,11 @@ void GameLayer::doInitGraphics()
 	// ===========================================
 	// Boat
 	// -----------
-	_boat = (GameSprite*)GameSprite::createWithSpriteFrameName("jetpack.png");
+	_boat = (GameSprite*)GameSprite::createWithSpriteFrameName("boat.png");
 	_boat->setVisible(true);
 	//_boat->setTextureRect(Rect(0, 0, 30, 30));
 	//_boat->setColor(Color3B(160, 156, 38));
-	_boat->setOpacity(100);
+	//_boat->setOpacity(100);
 	_boat->setPosition(Vec2(_origin.x + _screenSize.width * 0.5f, _screenSize.height * 0.25f));
 	_gameBatchNode->addChild(_boat, kForeground);
 
@@ -728,9 +744,9 @@ void GameLayer::doInitGraphics()
 	// ===========================================
 	// Bridge
 	// ----------
-	bridge = Sprite::createWithSpriteFrameName("ground_wood.png");
-	bridge->setTextureRect(Rect(0, 0, _screenSize.width, 20));
-	bridge->setColor(Color3B(255, 0, 0));
+	bridge = Sprite::createWithSpriteFrameName("woodbridge.png");
+	//bridge->setTextureRect(Rect(0, 0, _screenSize.width, 20));
+	//bridge->setColor(Color3B(255, 0, 0));
 	bridge->setPosition(Vec2(_origin.x + _screenSize.width * 0.5f, _screenSize.height * 0.2f));
 	bridge->setAnchorPoint(Vec2(0.5f, 1.0f));
 	bridge->setVisible(false);
@@ -740,8 +756,8 @@ void GameLayer::doInitGraphics()
 
 	for (size_t i = 0; i < 24; i++)
 	{
-		auto bridgehealthBar = Sprite::createWithSpriteFrameName("U.png");
-		bridgehealthBar->setTextureRect(Rect(0, 0, 10, 10));
+		auto bridgehealthBar = Sprite::createWithSpriteFrameName("box.png");
+		bridgehealthBar->setTextureRect(Rect({ 57,0 }, { 10,10 }));
 		bridgehealthBar->setColor(Color3B(50, 250, 50));
 		bridgehealthBar->setPosition(Vec2(size.width * 0.9f, size.height * 1.0f + bridgehealthBar->getContentSize().height));
 		bridge->addChild(bridgehealthBar, 10, kBridgeHealthBar);
@@ -758,7 +774,7 @@ void GameLayer::doInitGraphics()
 
 	for (size_t i = 0; i < 50; i++)
 	{
-		auto pollutant = Sprite::createWithSpriteFrameName("fishTile_097.png");
+		auto pollutant = Sprite::createWithSpriteFrameName("dirty.png");
 		//pollutant->setTextureRect(Rect(0, 0, 15, 15));
 		//pollutant->setColor(Color3B(0, 255, 0));
 		pollutant->setVisible(false);
@@ -775,9 +791,9 @@ void GameLayer::doInitGraphics()
 	// ----------
 	for (size_t i = 0; i < 10; i++)
 	{
-		auto human = Sprite::createWithSpriteFrameName("jetpack.png");
-		human->setTextureRect(Rect(0, 0, 25, 25));
-		human->setColor(Color3B(183, 193, 178));
+		auto human = Sprite::createWithSpriteFrameName("man.png");
+		//human->setTextureRect(Rect(0, 0, 25, 25));
+		//human->setColor(Color3B(183, 193, 178));
 		human->setVisible(false);
 		_gameBatchNode->addChild(human, kMiddleground);
 		_humanPool.pushBack(human);
@@ -789,9 +805,9 @@ void GameLayer::doInitGraphics()
 	// ----------
 	for (size_t i = 0; i < 20; i++)
 	{
-		auto wood = Sprite::createWithSpriteFrameName("U.png");
-		wood->setTextureRect(Rect(0, 0, 25, 25));
-		wood->setColor(Color3B(127, 69, 26));
+		auto wood = Sprite::createWithSpriteFrameName("woodtimber.png");
+		//wood->setTextureRect(Rect(0, 0, 25, 25));
+		//wood->setColor(Color3B(127, 69, 26));
 
 		wood->setVisible(false);
 		_gameBatchNode->addChild(wood, kMiddleground);
@@ -802,9 +818,9 @@ void GameLayer::doInitGraphics()
 	// ===========================================
 	// water
 	// ----------
-	water = Sprite::createWithSpriteFrameName("U.png");
-	water->setTextureRect(Rect(0, 0, _screenSize.width, 100));
-	water->setColor(Color3B(10, 255, 226));
+	water = Sprite::createWithSpriteFrameName("water.png");
+	//water->setTextureRect(Rect(0, 0, _screenSize.width, 100));
+	//water->setColor(Color3B(10, 255, 226));
 	water->setPosition(Vec2(_origin.x + _screenSize.width * 0.5f, _screenSize.height * 0.2f));
 	water->setAnchorPoint(Vec2(0.5f, 1.0f));
 	water->setVisible(true);
@@ -814,9 +830,9 @@ void GameLayer::doInitGraphics()
 	// ===========================================
 	// wood collected
 	// ----------
-	woodUI = Sprite::createWithSpriteFrameName("U.png");
-	woodUI->setTextureRect(Rect(0, 0, 20, 20));
-	woodUI->setColor(Color3B(160, 89, 38));
+	woodUI = Sprite::createWithSpriteFrameName("box.png");
+	woodUI->setTextureRect(Rect({ 57,0 }, { 20,20 }));
+	//woodUI->setColor(Color3B(160, 89, 38));
 	woodUI->setPosition(Vec2(_origin.x + _screenSize.width * 0.2f + woodUI->getContentSize().width, _origin.y +_screenSize.height * 0.99f - woodUI->getContentSize().height));
 	woodUI->setVisible(true);
 	_gameBatchNode->addChild(woodUI, kForeground);
@@ -829,9 +845,9 @@ void GameLayer::doInitGraphics()
 	// ===========================================
 	// human collected
 	// ----------
-	auto humanUI = Sprite::createWithSpriteFrameName("U.png");
-	humanUI->setTextureRect(Rect(0, 0, 20, 20));
-	humanUI->setColor(Color3B(183, 193, 178));
+	auto humanUI = Sprite::createWithSpriteFrameName("box.png");
+	humanUI->setTextureRect(Rect({ 57,0 }, { 20,20 }));
+	//humanUI->setColor(Color3B(183, 193, 178));
 	humanUI->setPosition(Vec2(_origin.x + _screenSize.width * 0.15f, _screenSize.height * 0.99f - humanUI->getContentSize().height));
 	humanUI->setVisible(true);
 	_gameBatchNode->addChild(humanUI, kForeground);
@@ -842,13 +858,6 @@ void GameLayer::doInitGraphics()
 	this->addChild(_scoreHuman, 111);
 
 
-	// timer UI
-
-	_timerUI = Label::createWithBMFont("font.fnt", "100");
-	_timerUI->setAnchorPoint(Vec2(1.0f, 0.5f));
-	_timerUI->setBMFontSize(20.0f);
-	_timerUI->setPosition(Vec2(_origin.x + _screenSize.width * 0.85f, _screenSize.height * 0.99f - _timerUI->getContentSize().height));
-	this->addChild(_timerUI, 111);
 
 	// gameover
 	_youGameOver = Label::createWithTTF("Game Over", "fonts/Marker Felt.ttf", 24);
@@ -922,7 +931,6 @@ void GameLayer::doInitEvents()
 
 	this->scheduleUpdate();
 
-	this->schedule(CC_SCHEDULE_SELECTOR(GameLayer::updateTimer), 1.0f);
 
 }
 
@@ -935,6 +943,15 @@ bool GameLayer::onTouchBegan(Touch* touch, cocos2d::Event* event)
 	// start the game after clicking
 	if (!_playing)
 	{
+		if (_youWin->isVisible())
+		{
+			_youWin->setVisible(false);
+		}
+
+		if (_youGameOver->isVisible())
+		{
+			_youGameOver->setVisible(false);
+		}
 
 		// reset game
 		doResetGame();
@@ -980,6 +997,17 @@ void GameLayer::onMouseBegan(cocos2d::Event* event)
 	// start the game after clicking
 	if (!_playing)
 	{
+
+		if (_youWin->isVisible())
+		{
+			_youWin->setVisible(false);
+		}
+
+		if (_youGameOver->isVisible())
+		{
+			_youGameOver->setVisible(false);
+		}
+
 
 		// reset game
 		doResetGame();
@@ -1084,30 +1112,6 @@ void GameLayer::doGenerateNewHuman()
 }
 
 
-void GameLayer::updateTimer(float dt) {
-	
-	if (_playing)
-	{
-		_initalGameTime -= 1;
-		_timerUI->setString(StringUtils::toString<int>(_initalGameTime));
-
-	}
-
-	log("Water === %d", _opacityWater);
-
-	if (_initalGameTime < 1)
-	{
-		this->unschedule(CC_SCHEDULE_SELECTOR(GameLayer::updateTimer));
-		if (water->getOpacity() < 50){
-			_youGameOver->setVisible(true);
-
-		}else{
-			_youWin->setVisible(true);
-		}
-		//doStopGame();
-	}
-	log("Timer ===== %d", _initalGameTime);
-}
 
 
 void GameLayer::menuCloseCallback(Ref* sender)
@@ -1126,14 +1130,6 @@ void GameLayer::menuCloseCallback(Ref* sender)
 
 void GameLayer::menuResetCallback(Ref* sender)
 {
-	// Close the cocos2d-x game scene and quit the application
 	auto scene = utils::createInstance<GameLayer>();
 	Director::getInstance()->replaceScene(scene);
-
-	/*To navigate back to native iOS screen(if present) without quitting the application  ,do not use
-     * Director::getInstance()->end() as given above,instead trigger a custom event created in RootViewController.mm
-     * as below*/
-
-	// EventCustom customEndEvent("game_scene_close_event");
-	//_eventDispatcher->dispatchEvent(&customEndEvent);
 }
