@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<level>
+	<wave delta="1.0">
+		<group type="smallenemy" speed="200" upgrade="laserupgrade" number="1" path="sin1" padding="10"/>
+	</wave>
+	<wave delta="5.2">
+		<group>
+		</group>
+		<group></group>
+		<group></group>
+	</wave>
+	<bosswave></bosswave>
+</level>

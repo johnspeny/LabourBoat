@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>animations</key>
+	<dict>
+		<key>explosion</key>
+		<dict>
+			<key>delay</key>
+			<real>0.07000000000000001</real>
+			<key>frames</key>
+			<array>
+				<string>explosion_1.png</string>
+				<string>explosion_2.png</string>
+				<string>explosion_3.png</string>
+				<string>explosion_4.png</string>
+				<string>explosion_5.png</string>
+				<string>explosion_6.png</string>
+				<string>explosion_7.png</string>
+				<string>explosion_8.png</string>
+				<string>explosion_9.png</string>
+				<string>explosion_10.png</string>
+				<string>explosion_11.png</string>
+				<string>explosion_12.png</string>
+				<string>explosion_13.png</string>
+				<string>explosion_14.png</string>
+				<string>explosion_15.png</string>
+				<string>explosion_16.png</string>
+			</array>
+		</dict>
+	</dict>
+</dict>
+</plist>

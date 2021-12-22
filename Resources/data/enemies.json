@@ -1,0 +1,34 @@
+{
+    "smallenemy" :
+    {
+        "attackPower" : 300.0,
+        "attackFrequency" : 2.0,
+        "frequencyDeltaMin" : 0.2,
+        "frequencyDeltaMax" : 0.9,
+        "attackSpeed" : 425.0,
+        "attackType" : 2,
+        "healthPool" : 5.0
+    },
+    
+    "mediumenemy" :
+    {
+        "attackPower" : 350.0,
+        "attackFrequency" : 1.3,
+        "frequencyDeltaMin" : 0.4,
+        "frequencyDeltaMax" : 0.7,
+        "attackSpeed" : 400.0,
+        "attackType" : 0,
+        "healthPool" : 120
+    },
+    
+    "largeenemy" :
+    {
+        "attackPower" : 450.0,
+        "attackFrequency" : 0.8,
+        "frequencyDeltaMin" : 0.1,
+        "frequencyDeltaMax" : 0.3,
+        "attackSpeed" : 300,
+        "attackType" : 1,
+        "healthPool" : 250
+    }
+}

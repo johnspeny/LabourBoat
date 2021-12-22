@@ -63,15 +63,18 @@ endif()
 # add cross-platforms source files and header files 
 list(APPEND GAME_SOURCE
      Classes/AppDelegate.cpp
-     Classes/HelloWorldScene.cpp
      Classes/GameLayer.cpp
-     Classes/GameSprite.cpp
+     Classes/tinyxml2.cpp
+     Classes/level.cpp
+     Classes/render_system.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
-     Classes/HelloWorldScene.h
      Classes/GameLayer.h
-     Classes/GameSprite.h
+     Classes/tinyxml2.h
+     Classes/level.h
+     Classes/render_system.h
+     Classes/components.h
      )
 
 if(ANDROID)
