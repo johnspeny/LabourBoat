@@ -5,6 +5,7 @@ Level::Level()
 {
 	// add render system
 	systems.add<RenderSystem>();
+	systems.add<InputSystem>();
 
 	// configure all systems
 	systems.configure();
@@ -20,6 +21,7 @@ Level::~Level()
 void Level::update(double dt)
 {
 	systems.update<RenderSystem>(dt);
+	systems.update<InputSystem>(dt);
 }
 
 Entity Level::createPlayer()
@@ -30,8 +32,16 @@ Entity Level::createPlayer()
 	// add a sprite component on entity
 	auto spriteComponent = entity.assign<SpriteComponent>("player.png");
 
+	// add an input component to this entity
+	entity.assign<InputComponent>();
+
+	// add a player component to player
+	entity.assign<PlayerComponent>(300.0f);
+
 	// add a velocity component
-	entity.assign<VelocityComponent>(300.0f);
+	entity.assign<VelocityComponent>();
+
+
 
 	return entity;
 }

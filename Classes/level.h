@@ -4,6 +4,8 @@
 #include "cocos2d.h"
 #include "entityx/entityx.h"
 #include "render_system.h"
+#include "input_system.h"
+
 
 USING_NS_CC;
 using namespace entityx;

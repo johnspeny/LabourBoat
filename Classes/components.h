@@ -2,7 +2,10 @@
 #define __COMPONENTS_H__
 
 #include "entityx/entityx.h"
+#include "cocos2d.h"
 
+USING_NS_CC;
+using namespace entityx;
 
 class CollidibleSprite : public cocos2d::Sprite
 {
@@ -53,8 +56,23 @@ struct SpriteComponent : public entityx::Component<SpriteComponent>
 
 struct VelocityComponent : public entityx::Component<VelocityComponent>
 {
-	VelocityComponent(float new_speed) : speed(new_speed) {}
-	VelocityComponent() : speed(0.0f) {}
+	VelocityComponent(float x, float y) :  velocity(Vec2(x, y)){}
+	VelocityComponent(Vec2 new_velocity) : velocity(new_velocity) {}
+	VelocityComponent() : velocity(Vec2(0.0f, 0.0f)) {}
+	Vec2 velocity;
+};
+
+struct InputComponent : public entityx::Component<InputComponent>
+{
+
+
+};
+
+struct PlayerComponent : public entityx::Component<PlayerComponent>
+{
+	PlayerComponent(float new_speed) : speed(new_speed) {}
+	PlayerComponent() : speed(0.0f) {}
+
 	float speed;
 };
 

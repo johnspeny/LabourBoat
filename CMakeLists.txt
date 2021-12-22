@@ -67,6 +67,8 @@ list(APPEND GAME_SOURCE
      Classes/tinyxml2.cpp
      Classes/level.cpp
      Classes/render_system.cpp
+     Classes/movement_system.cpp
+     Classes/input_system.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
@@ -75,6 +77,8 @@ list(APPEND GAME_HEADER
      Classes/level.h
      Classes/render_system.h
      Classes/components.h
+     Classes/movement_system.h
+     Classes/input_system.h
      )
 
 if(ANDROID)
