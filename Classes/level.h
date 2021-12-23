@@ -5,6 +5,7 @@
 #include "entityx/entityx.h"
 #include "render_system.h"
 #include "input_system.h"
+#include "movement_system.h"
 
 
 USING_NS_CC;

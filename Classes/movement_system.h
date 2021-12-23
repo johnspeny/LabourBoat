@@ -5,14 +5,13 @@
 #include "entityx/entityx.h"
 #include "components.h"
 
+USING_NS_CC;
 using namespace entityx;
 
 class MovementSystem : public System<MovementSystem>
 {
 
 public:
-	MovementSystem();
-	~MovementSystem();
 
 	void configure(EventManager& event_manager);
 

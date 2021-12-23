@@ -23,7 +23,7 @@ void InputSystem::configure(EventManager& event_manager)
 	auto eventDispatcher = director->getEventDispatcher();
 	eventDispatcher->addEventListenerWithFixedPriority(listener, 1);
 
-	//eventManager = &event_manager;
+	eventManager = &event_manager;
 
 }
 
@@ -48,24 +48,29 @@ void InputSystem::keyPressed(EventKeyboard::KeyCode keyCode, cocos2d::Event* eve
 		if (entity.has_component<SpriteComponent>() && entity.has_component<VelocityComponent>() && entity.has_component<PlayerComponent>()) 
 		{
 			auto ic = entity.component<InputComponent>();
+			auto keyMap = ic->inputMap;
 			float speed = entity.component<PlayerComponent>()->speed;
 			Vec2 velocity = entity.component<VelocityComponent>()->velocity;
 
-			if (keyCode == EventKeyboard::KeyCode::KEY_W)
+			if (keyCode == keyMap.at("up"))
 			{
 				velocity.y = speed;
+				ic->keyPressedMap["up"] = true;
 			}
-			else if (keyCode == EventKeyboard::KeyCode::KEY_A)
-			{
-				velocity.x = speed;
-			}
-			else if (keyCode == EventKeyboard::KeyCode::KEY_D)
+			else if (keyCode == keyMap.at("left"))
 			{
 				velocity.x = -speed;
+				ic->keyPressedMap["left"] = true;
 			}
-			else if (keyCode == EventKeyboard::KeyCode::KEY_S)
+			else if (keyCode == keyMap.at("right"))
+			{
+				velocity.x = speed;
+				ic->keyPressedMap["right"] = true;
+			}
+			else if (keyCode == keyMap.at("down"))
 			{
 				velocity.y = -speed;
+				ic->keyPressedMap["down"] = true;
 			}
 			// unit vector (divide every component by a unit vector)
 			velocity.normalize();
@@ -82,5 +87,53 @@ void InputSystem::keyPressed(EventKeyboard::KeyCode keyCode, cocos2d::Event* eve
 
 void InputSystem::keyReleased(EventKeyboard::KeyCode keyCode, cocos2d::Event* event)
 {
+	for (entityx::Entity entity : players)
+	{
+		if (entity.has_component<SpriteComponent>() && entity.has_component<VelocityComponent>() && entity.has_component<PlayerComponent>())
+		{
+			auto ic = entity.component<InputComponent>();
+			auto keyMap = ic->inputMap;
+			float speed = entity.component<PlayerComponent>()->speed;
+			Vec2 velocity = entity.component<VelocityComponent>()->velocity;
+
+			if (keyCode == keyMap.at("up"))
+			{
+				if (ic->keyPressedMap["down"])
+				{
+					velocity.y = -speed;
+				}
+				else
+				{
+					velocity.y = 0;
+				}
+				//velocity.y = 0;
+				ic->keyPressedMap["up"] = false;
+			}
+			else if (keyCode == keyMap.at("left"))
+			{
+				velocity.x = 0;
+				ic->keyPressedMap["left"] = false;
+			}
+			else if (keyCode == keyMap.at("right"))
+			{
+				velocity.x = 0;
+				ic->keyPressedMap["right"] = false;
+			}
+			else if (keyCode == keyMap.at("down"))
+			{
+				velocity.y = 0;
+				ic->keyPressedMap["down"] = false;
+			}
+			// unit vector (divide every component by a unit vector)
+			velocity.normalize();
+
+			entity.component<VelocityComponent>()->velocity = velocity * speed;
+
+		}
+		else
+		{
+			log("entity does not have those components");
+		}
+	}
 }
 
