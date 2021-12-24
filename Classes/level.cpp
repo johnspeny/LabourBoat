@@ -7,6 +7,7 @@ Level::Level()
 	systems.add<RenderSystem>();
 	systems.add<InputSystem>();
 	systems.add<MovementSystem>();
+	systems.add<CollisionSystem>();
 
 	// configure all systems
 	systems.configure();
@@ -24,6 +25,7 @@ void Level::update(double dt)
 	systems.update<RenderSystem>(dt);
 	systems.update<InputSystem>(dt);
 	systems.update<MovementSystem>(dt);
+	systems.update<CollisionSystem>(dt);
 }
 
 Entity Level::createPlayer()

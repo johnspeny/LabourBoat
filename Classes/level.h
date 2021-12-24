@@ -6,6 +6,7 @@
 #include "render_system.h"
 #include "input_system.h"
 #include "movement_system.h"
+#include "collision_system.h"
 
 
 USING_NS_CC;
