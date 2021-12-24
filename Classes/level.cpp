@@ -30,9 +30,6 @@ Entity Level::createPlayer()
 {
 	auto entity = entities.create();
 	Size visibleSize = Director::getInstance()->getVisibleSize();
-
-
-	// add a sprite component on entity
 	auto spriteComponent = entity.assign<SpriteComponent>("player.png");
 	auto sprite = spriteComponent->sprite;
 	sprite->setPosition(Vec2(visibleSize.width * 0.5f, visibleSize.height * 1 / 3.f));
@@ -56,6 +53,9 @@ Entity Level::createPlayer()
 
 	// add a boundary component
 	entity.assign<BoundaryComponent>(Rect(0, 0, visibleSize.width, visibleSize.height));
+
+	// add a physics body with collision component
+	entity.assign<CollisionComponent>();
 
 	return entity;
 }

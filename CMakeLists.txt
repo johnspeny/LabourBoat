@@ -69,6 +69,10 @@ list(APPEND GAME_SOURCE
      Classes/render_system.cpp
      Classes/movement_system.cpp
      Classes/input_system.cpp
+     Classes/collision_system.cpp
+     Classes/b2WorldNode.cpp
+     Classes/Box2dDebugDraw.cpp
+     Classes/GameVars.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
@@ -79,6 +83,10 @@ list(APPEND GAME_HEADER
      Classes/components.h
      Classes/movement_system.h
      Classes/input_system.h
+     Classes/collision_system.h
+     Classes/b2WorldNode.h
+     Classes/Box2dDebugDraw.h
+     Classes/GameVars.h
      )
 
 if(ANDROID)

@@ -114,4 +114,9 @@ struct BoundaryComponent : public entityx::Component<BoundaryComponent>
 	cocos2d::Rect bound;
 };
 
+struct CollisionComponent : public entityx::Component<CollisionComponent>
+{
+
+};
+
 #endif // !__COMPONENTS_H__
