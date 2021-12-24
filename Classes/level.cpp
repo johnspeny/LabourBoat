@@ -29,10 +29,14 @@ void Level::update(double dt)
 Entity Level::createPlayer()
 {
 	auto entity = entities.create();
-	
+	Size visibleSize = Director::getInstance()->getVisibleSize();
+
 
 	// add a sprite component on entity
 	auto spriteComponent = entity.assign<SpriteComponent>("player.png");
+	auto sprite = spriteComponent->sprite;
+	sprite->setPosition(Vec2(visibleSize.width * 0.5f, visibleSize.height * 1 / 3.f));
+	sprite->setRotation(-90);
 
 	// add an input component to this 
 	InputMap keyMap;
@@ -50,7 +54,8 @@ Entity Level::createPlayer()
 	// add a velocity component
 	entity.assign<VelocityComponent>();
 
-
+	// add a boundary component
+	entity.assign<BoundaryComponent>(Rect(0, 0, visibleSize.width, visibleSize.height));
 
 	return entity;
 }

@@ -111,17 +111,40 @@ void InputSystem::keyReleased(EventKeyboard::KeyCode keyCode, cocos2d::Event* ev
 			}
 			else if (keyCode == keyMap.at("left"))
 			{
-				velocity.x = 0;
+				if (ic->keyPressedMap["right"])
+				{
+					velocity.x = speed;
+				}
+				else
+				{
+					velocity.x = 0;
+				}
+				
 				ic->keyPressedMap["left"] = false;
 			}
 			else if (keyCode == keyMap.at("right"))
 			{
-				velocity.x = 0;
+				if (ic->keyPressedMap["left"])
+				{
+					velocity.x = -speed;
+				}
+				else
+				{
+					velocity.x = 0;
+				}
+
 				ic->keyPressedMap["right"] = false;
 			}
 			else if (keyCode == keyMap.at("down"))
 			{
-				velocity.y = 0;
+				if (ic->keyPressedMap["up"])
+				{
+					velocity.y = speed;
+				}
+				else
+				{
+					velocity.y = 0;
+				}
 				ic->keyPressedMap["down"] = false;
 			}
 			// unit vector (divide every component by a unit vector)

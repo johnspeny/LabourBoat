@@ -20,6 +20,34 @@ void MovementSystem::update(EntityManager& es, EventManager& events, TimeDelta d
 		float new_x = pos.x + velocity.x * dt;
 		float new_y = pos.y + velocity.y * dt;
 
-		sprite->setPosition(new_x, new_y);
+		// boundary
+		if (entity.has_component<BoundaryComponent>())
+		{
+			auto bounds = entity.component<BoundaryComponent>()->bound;
+			auto contextS = sprite->getContentSize();
+			bool boundLeftX = new_x < bounds.origin.x;
+			bool boundRightX = new_x > bounds.size.width;
+
+			bool boundBottomY = new_y - contextS.height / 3 < bounds.origin.y;
+			bool boundTopY = new_y +  contextS.height / 3 > bounds.size.height;
+			Vec2 newPos(new_x, new_y);
+
+			if (boundLeftX || boundRightX)
+			{
+				newPos = Vec2(pos.x, new_y);
+			}
+
+			if (boundTopY || boundBottomY)
+			{
+				newPos = Vec2(new_x, pos.y);
+			}
+
+			sprite->setPosition(newPos);
+		}
+		else
+		{
+			sprite->setPosition(new_x, new_y);
+		}
+
 	}
 }

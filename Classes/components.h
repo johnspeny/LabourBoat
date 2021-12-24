@@ -105,4 +105,13 @@ struct InputComponent : public entityx::Component<InputComponent>
 	InputKeyPressedMap keyPressedMap;
 };
 
+
+struct BoundaryComponent : public entityx::Component<BoundaryComponent>
+{
+	BoundaryComponent(cocos2d::Rect new_bound) : bound(new_bound){}
+	BoundaryComponent() : bound(cocos2d::Rect(0, 0, 1, 1)){}
+
+	cocos2d::Rect bound;
+};
+
 #endif // !__COMPONENTS_H__
