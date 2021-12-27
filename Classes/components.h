@@ -1,8 +1,9 @@
-#ifndef __COMPONENTS_H__
+﻿#ifndef __COMPONENTS_H__
 #define __COMPONENTS_H__
 
 #include "entityx/entityx.h"
 #include "cocos2d.h"
+#include "box2d/box2d.h"
 
 USING_NS_CC;
 using namespace entityx;
@@ -118,5 +119,16 @@ struct CollisionComponent : public entityx::Component<CollisionComponent>
 {
 
 };
+
+struct PhysicsComponent : public entityx::Component<PhysicsComponent>
+{
+	PhysicsComponent(b2Body* body) :body(body)
+	{}
+
+	b2Body* body;
+
+	entityx::Entity self;//body中的UserData
+};
+
 
 #endif // !__COMPONENTS_H__

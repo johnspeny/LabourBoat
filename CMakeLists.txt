@@ -73,6 +73,7 @@ list(APPEND GAME_SOURCE
      Classes/b2WorldNode.cpp
      Classes/Box2dDebugDraw.cpp
      Classes/GameVars.cpp
+     Classes/physics_system.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
@@ -87,6 +88,7 @@ list(APPEND GAME_HEADER
      Classes/b2WorldNode.h
      Classes/Box2dDebugDraw.h
      Classes/GameVars.h
+     Classes/physics_system.h
      )
 
 if(ANDROID)

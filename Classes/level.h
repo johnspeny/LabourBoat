@@ -6,7 +6,8 @@
 #include "render_system.h"
 #include "input_system.h"
 #include "movement_system.h"
-#include "collision_system.h"
+//#include "collision_system.h"
+#include "physics_system.h"
 
 
 USING_NS_CC;
@@ -16,6 +17,8 @@ class Level : public entityx::EntityX
 {
 private:
 	Entity createPlayer();
+
+	b2WorldNode* _world;
 
 public:
 	Level();
