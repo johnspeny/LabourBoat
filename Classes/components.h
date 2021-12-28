@@ -44,11 +44,13 @@ struct SpriteComponent : public entityx::Component<SpriteComponent>
 	SpriteComponent(const std::string& new_filename)
 	{
 		sprite = CollidibleSprite::createWithSpriteFrameName(new_filename);
+		sprite->setName("player");
 	}
 
 	SpriteComponent(std::string& new_filename)
 	{
 		sprite = CollidibleSprite::createWithSpriteFrameName(new_filename);
+		sprite->setName("player");
 	}
 
 	SpriteComponent()

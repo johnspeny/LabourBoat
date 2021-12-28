@@ -74,6 +74,7 @@ list(APPEND GAME_SOURCE
      Classes/Box2dDebugDraw.cpp
      Classes/GameVars.cpp
      Classes/physics_system.cpp
+     Classes/MyBodyParser.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
@@ -89,6 +90,7 @@ list(APPEND GAME_HEADER
      Classes/Box2dDebugDraw.h
      Classes/GameVars.h
      Classes/physics_system.h
+     Classes/MyBodyParser.h
      )
 
 if(ANDROID)

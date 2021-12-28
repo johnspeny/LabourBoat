@@ -63,7 +63,7 @@ void PhysicsSystem::update(EntityManager& es, EventManager& events, double dt)
 		_world->getb2World()->Step(dt, 6, 2);
 	
 
-		/*for (auto entity : es.entities_with_components(physicsComponent, spriteComponent))
+		for (auto entity : es.entities_with_components(physicsComponent, spriteComponent, velocityComponent))
 		{
 			auto bodyPhyics = entity.component<PhysicsComponent>()->body;
 
@@ -71,7 +71,10 @@ void PhysicsSystem::update(EntityManager& es, EventManager& events, double dt)
 			{
 				return;
 			}
+			auto sp = entity.component<SpriteComponent>()->sprite;
+			sp->setPosition(Vec2(bodyPhyics->GetPosition().x * GameVars::PTM_Ratio, bodyPhyics->GetPosition().y * GameVars::PTM_Ratio));
+			sp->setRotation(-1 * CC_RADIANS_TO_DEGREES(bodyPhyics->GetAngle()));
 
-			entity.component<VelocityComponent>()->velocity = Vec2(bodyPhyics->GetPosition().x * GameVars::PTM_Ratio, bodyPhyics->GetPosition().y * GameVars::PTM_Ratio);
-		}*/
+			//bodyPhyics->SetTransform(b2Vec2(pos->getPositionX() / GameVars::PTM_Ratio, pos->getPositionY() / GameVars::PTM_Ratio), bodyPhyics->GetAngle());
+		}
 }

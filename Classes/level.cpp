@@ -13,6 +13,9 @@ Level::Level()
 	auto currentScene = Director::getInstance()->getRunningScene();
 	currentScene->addChild(_world, -1);
 
+	// load player physics json
+	MyBodyParser::getInstance()->parseJsonFile("data/physics_data.json");
+
 	// add render system
 	systems.add<RenderSystem>();
 	systems.add<InputSystem>();
@@ -67,13 +70,17 @@ Entity Level::createPlayer()
 	def.type = b2BodyType::b2_dynamicBody;
 	def.position.Set(sprite->getPositionX() / GameVars::PTM_Ratio, sprite->getPositionY() / GameVars::PTM_Ratio);
 	def.userData.pointer = reinterpret_cast<uintptr_t>(&entity);
-
 	auto body = _world->getb2World()->CreateBody(&def);
-	b2PolygonShape shape;
-	shape.SetAsBox(0.5, 0.5);
-	body->CreateFixture(&shape, 1);
+	b2FixtureDef fd;
+
 	entity.assign<PhysicsComponent>(body);
 	
+	MyBodyParser::getInstance()->bodyFromJson(
+		sprite,
+		sprite->getName(),
+		&fd,
+		body
+		);
 
 	
 	// add a velocity component
@@ -83,7 +90,7 @@ Entity Level::createPlayer()
 	entity.assign<BoundaryComponent>(Rect(0, 0, visibleSize.width, visibleSize.height));
 
 	// add a physics body with collision component
-	entity.assign<CollisionComponent>();
+	//entity.assign<CollisionComponent>();
 
 	return entity;
 }

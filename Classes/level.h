@@ -8,6 +8,7 @@
 #include "movement_system.h"
 //#include "collision_system.h"
 #include "physics_system.h"
+#include "MyBodyParser.h"
 
 
 USING_NS_CC;
