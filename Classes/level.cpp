@@ -23,6 +23,8 @@ Level::Level()
 //	systems.add<CollisionSystem>();
 	systems.add<PhysicsSystem>(_world);
 	systems.add<BulletSystem>(entities);
+	systems.add<WeaponSystem>(entities);
+	systems.add<EnergyBarSystem>();
 
 	// configure all systems
 	systems.configure();
@@ -43,6 +45,8 @@ void Level::update(double dt)
 	//systems.update<CollisionSystem>(dt);
 	systems.update<PhysicsSystem>(dt);
 	systems.update<BulletSystem>(dt);
+	systems.update<WeaponSystem>(dt);
+	systems.update<EnergyBarSystem>(dt);
 }
 
 Entity Level::createPlayer()
@@ -60,7 +64,8 @@ Entity Level::createPlayer()
 		{ "up", EventKeyboard::KeyCode::KEY_W },
 		{ "down", EventKeyboard::KeyCode::KEY_S },
 		{ "left", EventKeyboard::KeyCode::KEY_A },
-		{ "right", EventKeyboard::KeyCode::KEY_D }
+		{ "right", EventKeyboard::KeyCode::KEY_D },
+		{ "fire", EventKeyboard::KeyCode::KEY_SPACE }
 	};
 	entity.assign<InputComponent>(keyMap);
 
@@ -93,6 +98,13 @@ Entity Level::createPlayer()
 
 	// add a physics body with collision component
 	//entity.assign<CollisionComponent>();
+
+	// add a weapon to this entity
+	entity.assign<WeaponComponent>();
+
+	// add energy bar to this entity
+	entity.assign<EnergyBarComponent>();
+
 
 	return entity;
 }

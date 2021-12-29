@@ -10,6 +10,8 @@
 #include "physics_system.h"
 #include "MyBodyParser.h"
 #include "bullet_system.h"
+#include "weapon_system.h"
+#include "energybar_system.h"
 
 
 USING_NS_CC;

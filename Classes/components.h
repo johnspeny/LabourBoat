@@ -101,6 +101,7 @@ struct InputComponent : public entityx::Component<InputComponent>
 		keyPressedMap.insert(PairKeynBool("down", false));
 		keyPressedMap.insert(PairKeynBool("left", false));
 		keyPressedMap.insert(PairKeynBool("right", false));
+		keyPressedMap.insert(PairKeynBool("fire", false));
 	}
 
 	InputMap inputMap;
@@ -129,7 +130,7 @@ struct PhysicsComponent : public entityx::Component<PhysicsComponent>
 
 	b2Body* body;
 
-	entityx::Entity self;//body中的UserData
+	entityx::Entity self;//
 };
 
 
@@ -173,6 +174,22 @@ struct BulletComponent : entityx::Component < BulletComponent >
 
 	BulletType					type;
 	float                       power;
+};
+
+
+struct WeaponComponent : entityx::Component < WeaponComponent >
+{
+
+	WeaponComponent(){}
+
+};
+
+
+struct EnergyBarComponent : entityx::Component < EnergyBarComponent >
+{
+
+	EnergyBarComponent() {}
+
 };
 
 

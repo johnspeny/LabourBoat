@@ -72,6 +72,11 @@ void InputSystem::keyPressed(EventKeyboard::KeyCode keyCode, cocos2d::Event* eve
 				velocity.y = -speed;
 				ic->keyPressedMap["down"] = true;
 			}
+			else if (keyCode == keyMap.at("fire"))
+			{
+				ic->keyPressedMap["fire"] = true;
+				eventManager->emit<AttemptWeaponFireEvent>(entity);
+			}
 			// unit vector (divide every component by a unit vector)
 			velocity.normalize();
 
@@ -146,6 +151,10 @@ void InputSystem::keyReleased(EventKeyboard::KeyCode keyCode, cocos2d::Event* ev
 					velocity.y = 0;
 				}
 				ic->keyPressedMap["down"] = false;
+			}
+			else if (keyCode == keyMap.at("fire"))
+			{
+				ic->keyPressedMap["fire"] = false;
 			}
 			// unit vector (divide every component by a unit vector)
 			velocity.normalize();
