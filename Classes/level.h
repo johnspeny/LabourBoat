@@ -9,6 +9,7 @@
 //#include "collision_system.h"
 #include "physics_system.h"
 #include "MyBodyParser.h"
+#include "bullet_system.h"
 
 
 USING_NS_CC;

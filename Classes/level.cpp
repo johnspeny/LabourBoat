@@ -22,6 +22,7 @@ Level::Level()
 	systems.add<MovementSystem>();
 //	systems.add<CollisionSystem>();
 	systems.add<PhysicsSystem>(_world);
+	systems.add<BulletSystem>(entities);
 
 	// configure all systems
 	systems.configure();
@@ -41,6 +42,7 @@ void Level::update(double dt)
 	systems.update<MovementSystem>(dt);
 	//systems.update<CollisionSystem>(dt);
 	systems.update<PhysicsSystem>(dt);
+	systems.update<BulletSystem>(dt);
 }
 
 Entity Level::createPlayer()
@@ -50,7 +52,7 @@ Entity Level::createPlayer()
 	auto spriteComponent = entity.assign<SpriteComponent>("player.png");
 	auto sprite = spriteComponent->sprite;
 	sprite->setPosition(Vec2(visibleSize.width * 0.5f, visibleSize.height * 1 / 3.f));
-	sprite->setRotation(-90);
+	//sprite->setRotation(-90);
 
 	// add an input component to this 
 	InputMap keyMap;

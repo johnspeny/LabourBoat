@@ -75,6 +75,7 @@ list(APPEND GAME_SOURCE
      Classes/GameVars.cpp
      Classes/physics_system.cpp
      Classes/MyBodyParser.cpp
+     Classes/bullet_system.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
@@ -91,6 +92,7 @@ list(APPEND GAME_HEADER
      Classes/GameVars.h
      Classes/physics_system.h
      Classes/MyBodyParser.h
+     Classes/bullet_system.h
      )
 
 if(ANDROID)
